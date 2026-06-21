@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herdr Cheatsheet: most-used commands</title>
+<meta name="description" content="A single-page cheatsheet of the most-used Herdr keybindings and CLI commands: splits, tabs, workspaces, panes, sessions, agents.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232dd4bf'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='20' font-weight='800' text-anchor='middle' fill='%2306231f'%3EH%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0b0f14;
+    --bg-2: #0f151c;
+    --panel: #131b24;
+    --panel-2: #18222d;
+    --border: #243140;
+    --border-soft: #1c2836;
+    --text: #e6edf3;
+    --muted: #8b9bb0;
+    --faint: #5d6b7d;
+    --accent: #2dd4bf;
+    --accent-2: #38bdf8;
+    --accent-dim: rgba(45, 212, 191, 0.12);
+    --warn: #fbbf24;
+    --danger: #f87171;
+    --good: #4ade80;
+    --kw2: #f78c6c;
+    --shadow: 0 1px 0 rgba(230,237,243,0.04) inset, 0 10px 28px rgba(5,10,16,0.5);
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(45, 212, 191, 0.08), transparent 60%),
+      radial-gradient(900px 500px at 5% 0%, rgba(56, 189, 248, 0.06), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(rgba(45,212,191,0.045) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #0b0f14 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #0b0f14 30%, transparent 75%);
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent) 35%, var(--accent-2) 65%, transparent);
+    opacity: 0.65;
+    z-index: 60;
+    pointer-events: none;
+  }
+  .hero, .getstarted, main, footer { position: relative; z-index: 1; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Header */
+  header.top {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(11, 15, 20, 0.78);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .top-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .logo {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: grid; place-items: center;
+    color: #06231f;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    box-shadow: 0 0 0 1px rgba(45,212,191,0.4), 0 6px 18px rgba(45,212,191,0.25);
+  }
+  .brand small {
+    display: block;
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+  .search {
+    margin-left: auto;
+    position: relative;
+    flex: 0 0 320px;
+    max-width: 46vw;
+  }
+  .search input {
+    width: 100%;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 14px 9px 38px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .search input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+  .search svg {
+    position: absolute;
+    left: 12px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--faint);
+  }
+  .top-actions { display: flex; gap: 8px; }
+  .btn {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn:hover { background: var(--panel-2); border-color: var(--accent); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #14b8a6);
+    color: #06231f;
+    border-color: transparent;
+    font-weight: 600;
+  }
+  .btn-primary:hover { filter: brightness(1.08); border-color: transparent; }
+
+  /* Hero / prefix banner */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 24px 8px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    margin: 0 0 8px;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p { color: var(--muted); margin: 0 0 22px; max-width: 60ch; }
+  .prefix-banner {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+  }
+  .prefix-banner .label {
+    color: var(--muted);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .prefix-banner .desc { color: var(--text); font-size: 14px; }
+  .prefix-banner .desc b { color: var(--accent); }
+  .demo {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  /* Keycap */
+  kbd, .key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6em;
+    padding: 3px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text);
+    background: linear-gradient(180deg, #1f2a37, #161e29);
+    border: 1px solid #2c3b4d;
+    border-bottom-width: 2px;
+    border-radius: 6px;
+    box-shadow: 0 1px 0 rgba(230,237,243,0.06) inset;
+    line-height: 1.4;
+    cursor: default;
+    transition: transform .08s, border-color .12s;
+    user-select: none;
+  }
+  kbd.plus, .plus { color: var(--faint); font-weight: 700; padding: 3px 2px; min-width: auto; background: none; border: none; box-shadow: none; }
+  kbd.clickable { cursor: pointer; }
+  kbd.clickable:hover { border-color: var(--accent); color: var(--accent); }
+  kbd.clickable:active { transform: translateY(1px); border-bottom-width: 1px; }
+  .keys { display: inline-flex; align-items: center; gap: 3px; flex-wrap: wrap; }
+
+  /* Get started: install + agent prompt */
+  .getstarted {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4px 24px 8px;
+    display: grid;
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+    gap: 18px;
+  }
+  @media (max-width: 880px) {
+    .getstarted { grid-template-columns: minmax(0,1fr); }
+  }
+  .gs-card {
+    background: linear-gradient(180deg, var(--panel), var(--bg-2));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .gs-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .gs-head h3 { margin: 0; font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+  .gs-head .ico { color: var(--accent); display: inline-flex; }
+  .gs-head .badge {
+    margin-left: auto; font-size: 11px; color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--accent-dim); padding: 3px 9px; border-radius: 999px;
+    border: 1px solid rgba(45,212,191,0.25);
+  }
+  .gs-card .sub { color: var(--muted); font-size: 13px; margin: 4px 0 14px; }
+  .gs-options { display: flex; flex-direction: column; gap: 8px; }
+  .gs-opt { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .gs-opt .tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent-2); background: rgba(56,189,248,0.08);
+    padding: 3px 9px; border-radius: 999px;
+    border: 1px solid rgba(56,189,248,0.2); white-space: nowrap; min-width: 64px; text-align: center;
+  }
+  .gs-code {
+    flex: 1;
+    min-width: 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+    background: #0a1016; border: 1px solid var(--border-soft);
+    border-radius: 7px; padding: 7px 10px; color: var(--text);
+    display: block; cursor: pointer; overflow-x: auto; white-space: nowrap;
+    transition: border-color .12s;
+  }
+  .gs-code:hover { border-color: var(--accent); }
+  .gs-code .a { color: var(--accent); }
+  .gs-code .w { color: var(--accent-2); }
+  .gs-code .u { color: var(--kw2); }
+  .gs-foot { color: var(--muted); font-size: 12.5px; margin: 12px 0 0; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .gs-foot .gs-code { display: inline-block; padding: 3px 8px; white-space: nowrap; flex: 0 0 auto; }
+  .prompt-block {
+    background: #0a1016; border: 1px solid var(--border-soft);
+    border-radius: 8px; position: relative; flex: 1; min-height: 0;
+  }
+  .prompt-block pre {
+    margin: 0; padding: 14px 14px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6;
+    color: var(--text); white-space: pre-wrap; word-break: break-word;
+    max-height: 340px; overflow: auto;
+  }
+  .prompt-block pre::-webkit-scrollbar { width: 8px; }
+  .prompt-block pre::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .copy-fab { position: absolute; top: 8px; right: 8px; padding: 5px 10px; font-size: 12px; }
+
+  /* Layout */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 24px 64px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    background: linear-gradient(180deg, var(--panel), var(--bg-2));
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: border-color .18s ease, box-shadow .18s ease;
+  }
+  .card:hover {
+    border-color: var(--border);
+    box-shadow: 0 1px 0 rgba(230,237,243,0.04) inset, 0 14px 34px rgba(5,10,16,0.6);
+  }
+  .card-head {
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(230,237,243,0.018);
+  }
+  .card-head .ico {
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    display: grid; place-items: center;
+    background: var(--accent-dim);
+    color: var(--accent);
+    flex: 0 0 auto;
+  }
+  .card-head h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .card-head .tag {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--faint);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .card ul {
+    list-style: none;
+    margin: 0;
+    padding: 6px 8px 10px;
+  }
+  .card li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 8px;
+    border-radius: 8px;
+    transition: background .12s;
+  }
+  .card li:hover { background: rgba(45, 212, 191, 0.05); }
+  .card li .keys { flex: 0 0 auto; min-width: 132px; }
+  .card li .what { color: var(--text); font-size: 13.5px; }
+  .card li .what small { color: var(--muted); display: block; font-size: 12px; }
+
+  /* CLI block */
+  .cli li .keys { min-width: 0; }
+  .cli code.cmd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text);
+    background: #0a1016;
+    border: 1px solid var(--border-soft);
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .cli code.cmd:hover { border-color: var(--accent); }
+  .cli code.cmd .c { color: var(--muted); }     /* comment */
+  .cli code.cmd .a { color: var(--accent); }    /* herdr */
+  .cli code.cmd .w { color: var(--accent-2); }  /* subcommand */
+  .cli code.cmd .o { color: var(--warn); }      /* option/arg */
+  .cli code.cmd .f { color: var(--faint); }
+
+  /* State chips */
+  .states { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px 16px; }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+  }
+  .chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .chip.blocked .dot { background: var(--danger); }
+  .chip.working .dot { background: var(--warn); }
+  .chip.done    .dot { background: var(--good); }
+  .chip.idle    .dot { background: var(--faint); }
+  .chip.unknown .dot { background: var(--muted); }
+
+  /* Footer */
+  footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 24px 48px;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border-soft);
+  }
+  footer a { color: var(--text); }
+  footer a:hover { color: var(--accent); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--panel-2);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s, transform .2s;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(5,10,16,0.55);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .hidden { display: none !important; }
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--muted);
+    padding: 60px 20px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; color: black; }
+    header.top, .search, .top-actions, .hero p, .toast { display: none !important; }
+    .card, .prefix-banner { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    kbd, .key { background: #f4f4f5; border-color: #ccc; color: #111; }
+    .card li .what, .hero h1, .card-head h2 { color: #111; }
+    .hero h1 .grad { color: #0d9488; -webkit-text-fill-color: #0d9488; }
+  }
+
+  @media (max-width: 640px) {
+    .search { flex: 1 1 100%; max-width: none; order: 3; }
+    .top-inner { flex-wrap: wrap; }
+    .top-actions .btn span { display: none; }
+    .card li { flex-wrap: wrap; }
+    .card li .keys { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <div class="logo">H</div>
+      <div>herdr<small>cheatsheet</small></div>
+    </div>
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="Search commands…  (try: split, tab, workspace)" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="top-actions">
+      <button class="btn" id="copyAll" title="Copy the whole cheatsheet as text">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        <span>Copy</span>
+      </button>
+      <button class="btn btn-primary" onclick="window.print()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+        <span>Print</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>The <span class="grad">Herdr</span> cheatsheet</h1>
+  <p>The most-used keybindings and CLI commands for <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr</a>, the terminal workspace manager. Click any key or command to copy it.</p>
+</section>
+
+<section class="getstarted">
+  <div class="gs-card">
+    <div class="gs-head">
+      <h3><span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg></span>Install Herdr</h3>
+      <span class="badge">global · one line</span>
+    </div>
+    <p class="sub">Pick one method. The binary lands on your <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">PATH</code>.</p>
+    <div class="gs-options">
+      <div class="gs-opt">
+        <span class="tag">curl</span>
+        <code class="gs-code clickable" data-copy="curl -fsSL https://herdr.dev/install.sh | sh"><span class="a">curl</span> -fsSL https://herdr.dev/install.sh | sh</code>
+      </div>
+      <div class="gs-opt">
+        <span class="tag">brew</span>
+        <code class="gs-code clickable" data-copy="brew install herdr"><span class="w">brew</span> install herdr</code>
+      </div>
+      <div class="gs-opt">
+        <span class="tag">mise</span>
+        <code class="gs-code clickable" data-copy="mise use -g herdr"><span class="w">mise</span> use -g herdr</code>
+      </div>
+      <div class="gs-opt">
+        <span class="tag">windows</span>
+        <code class="gs-code clickable" data-copy='powershell -ExecutionPolicy Bypass -c "irm https://herdr.dev/install.ps1 | iex"'><span class="w">powershell</span> -ExecutionPolicy Bypass -c <span class="u">"irm https://herdr.dev/install.ps1 | iex"</span></code>
+      </div>
+    </div>
+    <div class="gs-foot">
+      Verify:
+      <code class="gs-code clickable" data-copy="herdr --version"><span class="a">herdr</span> --version</code>
+      Launch:
+      <code class="gs-code clickable" data-copy="herdr"><span class="a">herdr</span></code>
+    </div>
+  </div>
+
+  <div class="gs-card">
+    <div class="gs-head">
+      <h3><span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><path d="m17 3 1 2 2 .5-1.5 1.5.5 2-2-1-2 1 .5-2L14 5.5l2-.5z"/></svg></span>Agent setup prompt</h3>
+      <span class="badge">paste once</span>
+    </div>
+    <p class="sub">One prompt to install Herdr globally <em>and</em> teach your agent the CLI via the official <a href="https://github.com/ogulcancelik/herdr/blob/master/SKILL.md" target="_blank" rel="noopener">SKILL.md</a>.</p>
+    <div class="prompt-block">
+      <button class="btn btn-primary copy-fab" data-copy-from="agentPrompt" type="button">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        Copy
+      </button>
+      <pre id="agentPrompt">Set up Herdr on this machine and teach yourself how to drive it.
+
+1. Install the Herdr binary globally.
+   - macOS/Linux with Homebrew:    brew install herdr
+   - macOS/Linux without Homebrew: curl -fsSL https://herdr.dev/install.sh | sh
+   - Windows (preview):            powershell -ExecutionPolicy Bypass -c "irm https://herdr.dev/install.ps1 | iex"
+   Verify with: herdr --version
+
+2. Install the official Herdr agent skill so you know the CLI inside a Herdr pane.
+   Save and read the skill file:
+     curl -fsSL https://raw.githubusercontent.com/ogulcancelik/herdr/master/SKILL.md \
+       -o ~/.claude/skills/herdr/SKILL.md
+   Then READ that file and keep these invariants:
+   - Only run `herdr` CLI commands when HERDR_ENV=1 (from inside a herdr pane).
+   - IDs compact when panes/tabs close; always re-read fresh IDs before reuse.
+   - `pane run` = text + Enter atomically; `wait output` blocks for future output;
+     `pane read` shows current output.
+   - Prefix is Ctrl+B; prefix+q detaches, prefix+v splits right, prefix+c new tab,
+     prefix+w workspace picker.
+
+3. Report back: installed version, where the skill file landed, and how to launch
+   (run `herdr`) and detach (Ctrl+B, then q).</pre>
+    </div>
+  </div>
+</section>
+
+<section class="hero" style="padding-top:24px; padding-bottom:0">
+  <div class="prefix-banner">
+    <span class="label">Prefix</span>
+    <div class="demo"><span class="keys"><kbd class="clickable" data-copy="ctrl+b">Ctrl</kbd><span class="plus">+</span><kbd class="clickable" data-copy="b">B</kbd></span></div>
+    <span class="desc">Press the <b>prefix</b>, release, then press the action key. Example: <span class="keys"><kbd>Ctrl+B</kbd></span> then <kbd>v</kbd> splits right. Mouse works for everything too.</span>
+  </div>
+</section>
+
+<main>
+  <div class="grid" id="cards"><!-- cards injected by JS --></div>
+</main>
+
+<footer>
+  Built from the official <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr docs</a> · prefix default is <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">ctrl+b</code> · not affiliated with Herdr.
+</footer>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+/* ---------- Data: most-used Herdr commands ---------- */
+const SECTIONS = [
+  {
+    id: 'panes', title: 'Panes & splits', tag: 'splits',
+    ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg>',
+    items: [
+      { keys: ['prefix','v'],                     what: 'Split right',                      sub: 'Vertical split (new pane to the right)' },
+      { keys: ['prefix','minus'],                 what: 'Split down',                       sub: 'Horizontal split (new pane below)' },
+      { keys: ['prefix','x'],                     what: 'Close pane',                       sub: 'Closes the focused pane' },
+      { keys: ['prefix','z'],                     what: 'Zoom pane',                        sub: 'Toggle fullscreen on focused pane' },
+      { keys: ['prefix','r'],                     what: 'Resize mode',                      sub: 'Enter resize mode to grow/shrink panes' },
+      { keys: ['prefix','h','/','j','/','k','/','l'], what: 'Focus pane ← ↓ ↑ →',          sub: 'Vim-style pane navigation' },
+      { keys: ['prefix','shift','h'],             what: 'Swap pane left',                   sub: 'Also shift+j/k/l for down/up/right' },
+      { keys: ['prefix','tab'],                   what: 'Cycle to next pane',               sub: 'Shift+Tab cycles back' },
+    ]
+  },
+  {
+    id: 'tabs', title: 'Tabs', tag: 'tab',
+    ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 6 4h12l3 5"/><path d="M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9"/><path d="M9 20v-7h6v7"/></svg>',
+    items: [
+      { keys: ['prefix','c'],                     what: 'New tab',                          sub: 'Creates a tab in the current workspace' },
+      { keys: ['prefix','n'],                     what: 'Next tab',                         sub: 'Move to the tab on the right' },
+      { keys: ['prefix','p'],                     what: 'Previous tab',                     sub: 'Move to the tab on the left' },
+      { keys: ['prefix','1..9'],                  what: 'Switch to tab N',                  sub: 'Jump directly to tab 1 to 9' },
+      { keys: ['prefix','shift','t'],             what: 'Rename tab',                       sub: 'Set a label for the active tab' },
+      { keys: ['prefix','shift','x'],             what: 'Close tab',                        sub: 'Closes the whole tab and its panes' },
+    ]
+  },
+  {
+    id: 'workspaces', title: 'Workspaces (spaces)', tag: 'workspace',
+    ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>',
+    items: [
+      { keys: ['prefix','w'],                     what: 'Workspace picker',                 sub: 'Open the workspace switcher' },
+      { keys: ['prefix','g'],                     what: 'Go to workspace',                  sub: 'Jump via the goto prompt' },
+      { keys: ['prefix','shift','n'],             what: 'New workspace',                    sub: 'One workspace per project/repo' },
+      { keys: ['prefix','shift','w'],             what: 'Rename workspace',                 sub: 'Edit the workspace label' },
+      { keys: ['prefix','shift','d'],             what: 'Close workspace',                  sub: 'Closes the workspace and its tabs' },
+      { keys: ['prefix','shift','g'],             what: 'New worktree',                     sub: 'Git worktree checkout as a workspace' },
+    ]
+  },
+  {
+    id: 'session', title: 'Session & detach', tag: 'session',
+    ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>',
+    items: [
+      { keys: ['prefix','q'],                     what: 'Detach client',                    sub: 'Server and agents keep running in background' },
+      { keys: ['prefix','b'],                     what: 'Toggle sidebar',                   sub: 'Show/hide the workspace sidebar' },
+      { keys: ['prefix','['],                     what: 'Copy mode',                        sub: 'Keyboard text selection / copy' },
+      { keys: ['prefix','?'],                     what: 'Show all bindings',                sub: 'In-app list of active keybindings' },
+    ]
+  },
+  {
+    id: 'navigate', title: 'Navigate mode', tag: 'navigate',
+    ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 11-3-3-3 3"/><path d="m12 8v8"/><circle cx="12" cy="12" r="10"/></svg>',
+    items: [
+      { keys: ['up','/','down'],                  what: 'Move between workspaces',          sub: 'While in navigate mode (prefix+w)' },
+      { keys: ['left','/','right'],               what: 'Move between panes',               sub: 'Permanent alias for pane ← / →' },
+      { keys: ['j','/','k'],                      what: 'Pane down / up',                   sub: 'Vim keys in navigate mode' },
+    ]
+  },
+  {
+    id: 'cli', title: 'CLI essentials', tag: 'cli', cli: true,
+    ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>',
+    items: [
+      { cmd: 'herdr',                              what: 'Launch or attach to default session' },
+      { cmd: 'herdr --session work',               what: 'Launch/attach a named session' },
+      { cmd: 'herdr status',                       what: 'Show client + server status' },
+      { cmd: 'herdr server stop',                  what: 'Stop server and all panes' },
+      { cmd: 'herdr server reload-config',         what: 'Reload config.toml without restart' },
+      { cmd: 'herdr session list',                 what: 'List all named sessions' },
+      { cmd: 'herdr session attach <name>',        what: 'Attach to a named session' },
+      { cmd: 'herdr workspace create --label api', what: 'Create a new workspace' },
+      { cmd: 'herdr workspace focus <id>',         what: 'Focus a workspace' },
+      { cmd: 'herdr tab create --label logs',      what: 'Create a tab' },
+      { cmd: 'herdr pane split --direction right', what: 'Split the current pane' },
+      { cmd: 'herdr pane zoom --toggle',           what: 'Zoom toggle a pane' },
+      { cmd: 'herdr pane close <id>',              what: 'Close a pane' },
+      { cmd: 'herdr agent list',                   what: 'List detected agents' },
+      { cmd: 'herdr agent focus <target>',         what: 'Focus a specific agent' },
+      { cmd: 'herdr agent send <target> "text"',   what: 'Send text to an agent' },
+      { cmd: 'herdr agent wait <target> --status idle', what: 'Block until agent state matches' },
+      { cmd: 'herdr update',                       what: 'Download and install update' },
+      { cmd: 'herdr --default-config',             what: 'Print full default config' },
+    ]
+  },
+];
+
+const AGENT_STATES = [
+  { cls: 'blocked', label: 'blocked',  desc: 'needs input / approval' },
+  { cls: 'working', label: 'working',  desc: 'actively running' },
+  { cls: 'done',    label: 'done',     desc: 'finished, not yet seen' },
+  { cls: 'idle',    label: 'idle',     desc: 'finished & acknowledged' },
+  { cls: 'unknown', label: 'unknown',  desc: 'cannot classify' },
+];
+
+/* ---------- Render ---------- */
+const cards = document.getElementById('cards');
+
+function keyHtml(k) {
+  if (k === '/') return '<span class="plus">/</span>';
+  if (k === 'prefix') return '<kbd class="clickable" data-copy="ctrl+b">Ctrl+B</kbd>';
+  if (k === 'minus') return '<kbd class="clickable" data-copy="-">-</kbd>';
+  if (k === 'shift' || k === 'ctrl' || k === 'alt') return `<kbd class="clickable" data-copy="${k}">${k[0].toUpperCase()+k.slice(1)}</kbd>`;
+  if (k === 'tab') return '<kbd class="clickable" data-copy="tab">Tab</kbd>';
+  if (k === 'up') return '<kbd>↑</kbd>';
+  if (k === 'down') return '<kbd>↓</kbd>';
+  if (k === 'left') return '<kbd>←</kbd>';
+  if (k === 'right') return '<kbd>→</kbd>';
+  return `<kbd class="clickable" data-copy="${k}">${k}</kbd>`;
+}
+function keysHtml(keys) {
+  return '<span class="keys">' + keys.map(keyHtml).join('') + '</span>';
+}
+
+function highlightCmd(cmd) {
+  // tokenize a herdr CLI command for nice colors
+  let c = cmd.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // comment after #
+  let comment = '';
+  if (c.includes('#')) { [c, comment] = c.split(/(?=#)/); }
+  const tokens = c.trim().split(/\s+/);
+  let out = [];
+  tokens.forEach((t, i) => {
+    if (i === 0 && t === 'herdr') { out.push(`<span class="a">herdr</span>`); return; }
+    if (i === 1 && !t.startsWith('-')) { out.push(`<span class="w">${t}</span>`); return; }
+    if (i === 2 && !t.startsWith('-') && out.length===2) { out.push(`<span class="w">${t}</span>`); return; }
+    if (t.startsWith('--') || t.startsWith('<') ) { out.push(`<span class="o">${t}</span>`); return; }
+    if (t.startsWith('-') && t.length > 1) { out.push(`<span class="o">${t}</span>`); return; }
+    out.push(`<span class="f">${t}</span>`);
+  });
+  return out.join(' ') + (comment ? `<span class="c">${comment}</span>` : '');
+}
+
+function render() {
+  cards.innerHTML = '';
+  SECTIONS.forEach(sec => {
+    const card = document.createElement('section');
+    card.className = 'card' + (sec.cli ? ' cli' : '');
+    card.dataset.id = sec.id;
+    card.innerHTML = `
+      <div class="card-head">
+        <span class="ico">${sec.ico}</span>
+        <h2>${sec.title}</h2>
+        <span class="tag">${sec.tag}</span>
+      </div>
+      <ul>
+        ${sec.items.map(it => {
+          if (sec.cli) {
+            return `<li data-text="${(it.cmd+' '+it.what).toLowerCase()}">
+              <span class="keys"><code class="cmd clickable" data-copy="${it.cmd}">${highlightCmd(it.cmd)}</code></span>
+              <span class="what">${it.what}</span>
+            </li>`;
+          }
+          return `<li data-text="${(it.what+' '+(it.sub||'')+' '+it.keys.join(' ')).toLowerCase()}">
+            <span class="keys">${keysHtml(it.keys)}</span>
+            <span class="what">${it.what}${it.sub ? `<small>${it.sub}</small>` : ''}</span>
+          </li>`;
+        }).join('')}
+      </ul>`;
+    cards.appendChild(card);
+  });
+
+  // agent states card
+  const stateCard = document.createElement('section');
+  stateCard.className = 'card';
+  stateCard.dataset.id = 'states';
+  stateCard.innerHTML = `
+    <div class="card-head">
+      <span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
+      <h2>Agent states</h2>
+      <span class="tag">sidebar</span>
+    </div>
+    <div class="states">
+      ${AGENT_STATES.map(s => `<span class="chip ${s.cls}" data-text="${s.label} ${s.desc}"><span class="dot"></span><b>${s.label}</b> · ${s.desc}</span>`).join('')}
+    </div>`;
+  cards.appendChild(stateCard);
+}
+
+/* ---------- Search ---------- */
+const q = document.getElementById('q');
+function filter() {
+  const term = q.value.trim().toLowerCase();
+  let anyVisible = false;
+  document.querySelectorAll('.card').forEach(card => {
+    let cardVisible = false;
+    card.querySelectorAll('li, .chip').forEach(li => {
+      const text = li.dataset.text || li.textContent.toLowerCase();
+      const show = !term || text.includes(term);
+      li.classList.toggle('hidden', !show);
+      if (show) cardVisible = true;
+    });
+    card.classList.toggle('hidden', !cardVisible);
+    if (cardVisible) anyVisible = true;
+  });
+  let empty = document.getElementById('empty');
+  if (!anyVisible) {
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.id = 'empty';
+      empty.className = 'empty-state';
+      empty.textContent = 'No commands match “' + q.value + '”.';
+      cards.appendChild(empty);
+    } else {
+      empty.textContent = 'No commands match “' + q.value + '”.';
+    }
+  } else if (empty) {
+    empty.remove();
+  }
+}
+q.addEventListener('input', filter);
+q.addEventListener('keydown', e => { if (e.key === 'Escape') { q.value=''; filter(); q.blur(); } });
+
+/* ---------- Copy ---------- */
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1200);
+}
+async function copyText(text, label) {
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('Copied: ' + (label || text));
+  } catch (e) {
+    showToast('Copy failed');
+  }
+}
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-copy], [data-copy-from]');
+  if (!el) return;
+  e.stopPropagation();
+  let text, label;
+  if (el.dataset.copyFrom) {
+    const src = document.getElementById(el.dataset.copyFrom);
+    text = src ? src.textContent.trim() : '';
+    label = 'agent prompt';
+  } else {
+    text = el.dataset.copy;
+  }
+  copyText(text, label);
+});
+
+/* ---------- Copy all as plain text ---------- */
+document.getElementById('copyAll').addEventListener('click', () => {
+  let out = ['# Herdr cheatsheet', '# prefix = ctrl+b', ''];
+  out.push('## Install (global)', '  curl -fsSL https://herdr.dev/install.sh | sh   # macOS/Linux', '  brew install herdr                              # with Homebrew', '  mise use -g herdr                              # with mise', '');
+  out.push('## Agent setup prompt (paste into your coding agent)', '  See https://github.com/ogulcancelik/herdr/blob/master/SKILL.md', '');
+  SECTIONS.forEach(sec => {
+    out.push('## ' + sec.title);
+    if (sec.cli) {
+      sec.items.forEach(it => out.push(`  ${it.cmd.padEnd(46)} # ${it.what}`));
+    } else {
+      sec.items.forEach(it => {
+        const k = it.keys.map(x => x === 'prefix' ? 'prefix' : x).join(' ');
+        out.push(`  ${k.padEnd(26)} ${it.what}${it.sub ? ' · '+it.sub : ''}`);
+      });
+    }
+    out.push('');
+  });
+  copyText(out.join('\n'), 'whole cheatsheet');
+});
+
+render();
+</script>
+</body>
+</html>
