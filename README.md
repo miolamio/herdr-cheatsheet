@@ -1,8 +1,10 @@
 # Herdr Cheatsheet
 
+> **English** · [한국어](README.ko.md)
+
 A single-file, print-friendly cheatsheet of the most-used [Herdr](https://herdr.dev/docs/) keybindings and CLI commands: pane splits, tabs, workspaces, sessions, agents, plus a copy-paste **agent setup prompt** that installs Herdr globally and pulls the official [SKILL.md](https://github.com/ogulcancelik/herdr/blob/master/SKILL.md).
 
-Open `index.html` directly, or visit the GitHub Pages site.
+Open `index.html` directly, or visit the GitHub Pages site → https://cskwork.github.io/herdr-cheatsheet/
 
 ## What's inside
 
@@ -18,6 +20,7 @@ Open `index.html` directly, or visit the GitHub Pages site.
 - Live search across every command.
 - Print stylesheet (two-column, no chrome).
 - Single self-contained `index.html` (no build step). Geist + JetBrains Mono via Google Fonts.
+- Korean/English toggle (top-right KO/EN). Auto-detects the browser language on first visit; the choice is saved to `localStorage`.
 
 ## Local preview
 

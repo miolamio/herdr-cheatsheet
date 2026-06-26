@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Herdr Cheatsheet: most-used commands</title>
+<title data-i18n="meta.title">Herdr Cheatsheet: most-used commands</title>
 <meta name="description" content="A single-page cheatsheet of the most-used Herdr keybindings and CLI commands: splits, tabs, workspaces, panes, sessions, agents.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -139,7 +139,74 @@
     transform: translateY(-50%);
     color: var(--faint);
   }
-  .top-actions { display: flex; gap: 8px; }
+  .top-actions { display: flex; gap: 8px; align-items: center; }
+
+  /* Language toggle (KO/EN segmented control) */
+  .lang-toggle {
+    display: inline-flex;
+    align-items: stretch;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--panel);
+  }
+  .lang-toggle button {
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    padding: 8px 11px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .lang-toggle button:hover { color: var(--text); }
+  .lang-toggle button[aria-pressed="true"] {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #06231f;
+  }
+
+  /* About section (glassmorphism card) */
+  .about {
+    max-width: 1200px;
+    margin: 56px auto 0;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .about-card {
+    border: 1px solid var(--border-soft);
+    border-radius: 18px;
+    padding: 28px 30px;
+    background: rgba(20, 28, 38, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .about-card h2 {
+    margin: 0 0 10px;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+  .about-card p { color: var(--muted); margin: 0 0 14px; max-width: 70ch; line-height: 1.6; }
+  .about-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .about-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--panel);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .about-links a:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .about-links a .glyph { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
   .btn {
     background: var(--panel);
     border: 1px solid var(--border);
@@ -456,7 +523,7 @@
   /* Print */
   @media print {
     body { background: white; color: black; }
-    header.top, .search, .top-actions, .hero p, .toast { display: none !important; }
+    header.top, .search, .top-actions, .hero p, .toast, .about { display: none !important; }
     .card, .prefix-banner { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; }
     .grid { grid-template-columns: repeat(2, 1fr); }
     kbd, .key { background: #f4f4f5; border-color: #ccc; color: #111; }
@@ -483,33 +550,37 @@
     </div>
     <div class="search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="q" type="text" placeholder="Search commands…  (try: split, tab, workspace)" autocomplete="off" spellcheck="false">
+      <input id="q" type="text" placeholder="Search commands…  (try: split, tab, workspace)" data-i18n-ph="search.ph" autocomplete="off" spellcheck="false">
     </div>
     <div class="top-actions">
-      <button class="btn" id="copyAll" title="Copy the whole cheatsheet as text">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" data-lang="ko" aria-pressed="true">KO</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button class="btn" id="copyAll" title="Copy the whole cheatsheet as text" data-i18n-title="actions.copyAllTitle">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-        <span>Copy</span>
+        <span data-i18n="actions.copy">Copy</span>
       </button>
       <button class="btn btn-primary" onclick="window.print()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
-        <span>Print</span>
+        <span data-i18n="actions.print">Print</span>
       </button>
     </div>
   </div>
 </header>
 
 <section class="hero">
-  <h1>The <span class="grad">Herdr</span> cheatsheet</h1>
-  <p>The most-used keybindings and CLI commands for <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr</a>, the terminal workspace manager. Click any key or command to copy it.</p>
+  <h1 data-i18n-html="hero.title">The <span class="grad">Herdr</span> cheatsheet</h1>
+  <p data-i18n-html="hero.desc">The most-used keybindings and CLI commands for <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr</a>, the terminal workspace manager. Click any key or command to copy it.</p>
 </section>
 
 <section class="getstarted">
   <div class="gs-card">
     <div class="gs-head">
-      <h3><span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg></span>Install Herdr</h3>
-      <span class="badge">global · one line</span>
+      <h3><span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg></span><span data-i18n="gs.install.title">Install Herdr</span></h3>
+      <span class="badge" data-i18n="gs.install.badge">global · one line</span>
     </div>
-    <p class="sub">Pick one method. The binary lands on your <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">PATH</code>.</p>
+    <p class="sub" data-i18n-html="gs.install.sub">Pick one method. The binary lands on your <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">PATH</code>.</p>
     <div class="gs-options">
       <div class="gs-opt">
         <span class="tag">curl</span>
@@ -529,23 +600,23 @@
       </div>
     </div>
     <div class="gs-foot">
-      Verify:
+      <span data-i18n="gs.install.verify">Verify:</span>
       <code class="gs-code clickable" data-copy="herdr --version"><span class="a">herdr</span> --version</code>
-      Launch:
+      <span data-i18n="gs.install.launch">Launch:</span>
       <code class="gs-code clickable" data-copy="herdr"><span class="a">herdr</span></code>
     </div>
   </div>
 
   <div class="gs-card">
     <div class="gs-head">
-      <h3><span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><path d="m17 3 1 2 2 .5-1.5 1.5.5 2-2-1-2 1 .5-2L14 5.5l2-.5z"/></svg></span>Agent setup prompt</h3>
-      <span class="badge">paste once</span>
+      <h3><span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><path d="m17 3 1 2 2 .5-1.5 1.5.5 2-2-1-2 1 .5-2L14 5.5l2-.5z"/></svg></span><span data-i18n="gs.agent.title">Agent setup prompt</span></h3>
+      <span class="badge" data-i18n="gs.agent.badge">paste once</span>
     </div>
-    <p class="sub">One prompt to install Herdr globally <em>and</em> teach your agent the CLI via the official <a href="https://github.com/ogulcancelik/herdr/blob/master/SKILL.md" target="_blank" rel="noopener">SKILL.md</a>.</p>
+    <p class="sub" data-i18n-html="gs.agent.sub">One prompt to install Herdr globally <em>and</em> teach your agent the CLI via the official <a href="https://github.com/ogulcancelik/herdr/blob/master/SKILL.md" target="_blank" rel="noopener">SKILL.md</a>.</p>
     <div class="prompt-block">
       <button class="btn btn-primary copy-fab" data-copy-from="agentPrompt" type="button">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-        Copy
+        <span data-i18n="actions.copy">Copy</span>
       </button>
       <pre id="agentPrompt">Set up Herdr on this machine and teach yourself how to drive it.
 
@@ -575,9 +646,9 @@
 
 <section class="hero" style="padding-top:24px; padding-bottom:0">
   <div class="prefix-banner">
-    <span class="label">Prefix</span>
+    <span class="label" data-i18n="prefix.label">Prefix</span>
     <div class="demo"><span class="keys"><kbd class="clickable" data-copy="ctrl+b">Ctrl</kbd><span class="plus">+</span><kbd class="clickable" data-copy="b">B</kbd></span></div>
-    <span class="desc">Press the <b>prefix</b>, release, then press the action key. Example: <span class="keys"><kbd>Ctrl+B</kbd></span> then <kbd>v</kbd> splits right. Mouse works for everything too.</span>
+    <span class="desc" data-i18n-html="prefix.desc">Press the <b>prefix</b>, release, then press the action key. Example: <span class="keys"><kbd>Ctrl+B</kbd></span> then <kbd>v</kbd> splits right. Mouse works for everything too.</span>
   </div>
 </section>
 
@@ -585,106 +656,122 @@
   <div class="grid" id="cards"><!-- cards injected by JS --></div>
 </main>
 
+<section class="about" id="about">
+  <div class="about-card">
+    <h2 data-i18n="about.title">About</h2>
+    <p data-i18n-html="about.body">A single-file, print-friendly cheatsheet of the most-used <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr</a> keybindings and CLI commands. Everything lives in one self-contained <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">index.html</code> — no build step. Not affiliated with Herdr; built from the official docs.</p>
+    <div class="about-links">
+      <a href="https://cskwork.github.io/herdr-cheatsheet/" target="_blank" rel="noopener"><span class="glyph">↗</span><span data-i18n="about.link.pages">GitHub Pages site</span></a>
+      <a href="https://github.com/cskwork/herdr-cheatsheet" target="_blank" rel="noopener"><span class="glyph">★</span><span data-i18n="about.link.repo">GitHub repository</span></a>
+      <a href="https://herdr.dev/docs/" target="_blank" rel="noopener"><span class="glyph">¶</span><span data-i18n="about.link.docs">Herdr official docs</span></a>
+      <a href="https://github.com/ogulcancelik/herdr/blob/master/SKILL.md" target="_blank" rel="noopener"><span class="glyph">{ }</span><span>SKILL.md</span></a>
+    </div>
+  </div>
+</section>
+
 <footer>
-  Built from the official <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr docs</a> · prefix default is <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">ctrl+b</code> · not affiliated with Herdr.
+  <span data-i18n-html="footer">Built from the official <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr docs</a> · prefix default is <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">ctrl+b</code> · not affiliated with Herdr.</span>
 </footer>
 
 <div class="toast" id="toast">Copied!</div>
 
 <script>
 /* ---------- Data: most-used Herdr commands ---------- */
+let LANG = 'ko';
 const SECTIONS = [
   {
-    id: 'panes', title: 'Panes & splits', tag: 'splits',
+    id: 'panes', title: 'Panes & splits', title_ko: '창 분할 & 패널', tag: 'splits',
     ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg>',
     items: [
-      { keys: ['prefix','v'],                     what: 'Split right',                      sub: 'Vertical split (new pane to the right)' },
-      { keys: ['prefix','minus'],                 what: 'Split down',                       sub: 'Horizontal split (new pane below)' },
-      { keys: ['prefix','x'],                     what: 'Close pane',                       sub: 'Closes the focused pane' },
-      { keys: ['prefix','z'],                     what: 'Zoom pane',                        sub: 'Toggle fullscreen on focused pane' },
-      { keys: ['prefix','r'],                     what: 'Resize mode',                      sub: 'Enter resize mode to grow/shrink panes' },
-      { keys: ['prefix','h','/','j','/','k','/','l'], what: 'Focus pane ← ↓ ↑ →',          sub: 'Vim-style pane navigation' },
-      { keys: ['prefix','shift','h'],             what: 'Swap pane left',                   sub: 'Also shift+j/k/l for down/up/right' },
-      { keys: ['prefix','tab'],                   what: 'Cycle to next pane',               sub: 'Shift+Tab cycles back' },
+      { keys: ['prefix','v'],                     what: 'Split right',         what_ko: '오른쪽 분할',          sub: 'Vertical split (new pane to the right)', sub_ko: '세로 분할 (오른쪽에 새 패널)' },
+      { keys: ['prefix','minus'],                 what: 'Split down',          what_ko: '아래쪽 분할',          sub: 'Horizontal split (new pane below)',     sub_ko: '가로 분할 (아래에 새 패널)' },
+      { keys: ['prefix','x'],                     what: 'Close pane',          what_ko: '패널 닫기',            sub: 'Closes the focused pane',               sub_ko: '현재 패널을 닫음' },
+      { keys: ['prefix','z'],                     what: 'Zoom pane',           what_ko: '패널 확대',            sub: 'Toggle fullscreen on focused pane',     sub_ko: '현재 패널 전체화면 토글' },
+      { keys: ['prefix','r'],                     what: 'Resize mode',         what_ko: '크기 조절 모드',       sub: 'Enter resize mode to grow/shrink panes', sub_ko: '패널 크기를 늘리거나 줄이는 모드 진입' },
+      { keys: ['prefix','h','/','j','/','k','/','l'], what: 'Focus pane ← ↓ ↑ →', what_ko: '패널 포커스 이동 ← ↓ ↑ →', sub: 'Vim-style pane navigation',         sub_ko: 'Vim 방식 패널 이동' },
+      { keys: ['prefix','shift','h'],             what: 'Swap pane left',      what_ko: '패널 왼쪽으로 교체',   sub: 'Also shift+j/k/l for down/up/right',    sub_ko: 'shift+j/k/l로 아래/위/오른쪽도 가능' },
+      { keys: ['prefix','tab'],                   what: 'Cycle to next pane',  what_ko: '다음 패널로 순환',     sub: 'Shift+Tab cycles back',                 sub_ko: 'Shift+Tab은 역방향 순환' },
     ]
   },
   {
-    id: 'tabs', title: 'Tabs', tag: 'tab',
+    id: 'tabs', title: 'Tabs', title_ko: '탭', tag: 'tab',
     ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 6 4h12l3 5"/><path d="M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9"/><path d="M9 20v-7h6v7"/></svg>',
     items: [
-      { keys: ['prefix','c'],                     what: 'New tab',                          sub: 'Creates a tab in the current workspace' },
-      { keys: ['prefix','n'],                     what: 'Next tab',                         sub: 'Move to the tab on the right' },
-      { keys: ['prefix','p'],                     what: 'Previous tab',                     sub: 'Move to the tab on the left' },
-      { keys: ['prefix','1..9'],                  what: 'Switch to tab N',                  sub: 'Jump directly to tab 1 to 9' },
-      { keys: ['prefix','shift','t'],             what: 'Rename tab',                       sub: 'Set a label for the active tab' },
-      { keys: ['prefix','shift','x'],             what: 'Close tab',                        sub: 'Closes the whole tab and its panes' },
+      { keys: ['prefix','c'],                     what: 'New tab',             what_ko: '새 탭',                sub: 'Creates a tab in the current workspace', sub_ko: '현재 워크스페이스에 탭 생성' },
+      { keys: ['prefix','n'],                     what: 'Next tab',            what_ko: '다음 탭',              sub: 'Move to the tab on the right',          sub_ko: '오른쪽 탭으로 이동' },
+      { keys: ['prefix','p'],                     what: 'Previous tab',        what_ko: '이전 탭',              sub: 'Move to the tab on the left',           sub_ko: '왼쪽 탭으로 이동' },
+      { keys: ['prefix','1..9'],                  what: 'Switch to tab N',     what_ko: 'N번 탭으로 전환',      sub: 'Jump directly to tab 1 to 9',           sub_ko: '1~9번 탭으로 바로 이동' },
+      { keys: ['prefix','shift','t'],             what: 'Rename tab',          what_ko: '탭 이름 변경',         sub: 'Set a label for the active tab',        sub_ko: '활성 탭에 레이블 지정' },
+      { keys: ['prefix','shift','x'],             what: 'Close tab',           what_ko: '탭 닫기',              sub: 'Closes the whole tab and its panes',    sub_ko: '탭 전체와 그 패널들을 닫음' },
     ]
   },
   {
-    id: 'workspaces', title: 'Workspaces (spaces)', tag: 'workspace',
+    id: 'workspaces', title: 'Workspaces (spaces)', title_ko: '워크스페이스(공간)', tag: 'workspace',
     ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>',
     items: [
-      { keys: ['prefix','w'],                     what: 'Workspace picker',                 sub: 'Open the workspace switcher' },
-      { keys: ['prefix','g'],                     what: 'Go to workspace',                  sub: 'Jump via the goto prompt' },
-      { keys: ['prefix','shift','n'],             what: 'New workspace',                    sub: 'One workspace per project/repo' },
-      { keys: ['prefix','shift','w'],             what: 'Rename workspace',                 sub: 'Edit the workspace label' },
-      { keys: ['prefix','shift','d'],             what: 'Close workspace',                  sub: 'Closes the workspace and its tabs' },
-      { keys: ['prefix','shift','g'],             what: 'New worktree',                     sub: 'Git worktree checkout as a workspace' },
+      { keys: ['prefix','w'],                     what: 'Workspace picker',    what_ko: '워크스페이스 선택기',  sub: 'Open the workspace switcher',           sub_ko: '워크스페이스 전환기 열기' },
+      { keys: ['prefix','g'],                     what: 'Go to workspace',     what_ko: '워크스페이스로 이동',  sub: 'Jump via the goto prompt',              sub_ko: 'goto 프롬프트로 점프' },
+      { keys: ['prefix','shift','n'],             what: 'New workspace',       what_ko: '새 워크스페이스',      sub: 'One workspace per project/repo',        sub_ko: '프로젝트/레포당 하나의 워크스페이스' },
+      { keys: ['prefix','shift','w'],             what: 'Rename workspace',    what_ko: '워크스페이스 이름 변경', sub: 'Edit the workspace label',            sub_ko: '워크스페이스 레이블 편집' },
+      { keys: ['prefix','shift','d'],             what: 'Close workspace',     what_ko: '워크스페이스 닫기',    sub: 'Closes the workspace and its tabs',     sub_ko: '워크스페이스와 탭들을 닫음' },
+      { keys: ['prefix','shift','g'],             what: 'New worktree',        what_ko: '새 worktree',          sub: 'Git worktree checkout as a workspace',  sub_ko: 'Git worktree를 워크스페이스로 체크아웃' },
     ]
   },
   {
-    id: 'session', title: 'Session & detach', tag: 'session',
+    id: 'session', title: 'Session & detach', title_ko: '세션 & 분리(detach)', tag: 'session',
     ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>',
     items: [
-      { keys: ['prefix','q'],                     what: 'Detach client',                    sub: 'Server and agents keep running in background' },
-      { keys: ['prefix','b'],                     what: 'Toggle sidebar',                   sub: 'Show/hide the workspace sidebar' },
-      { keys: ['prefix','['],                     what: 'Copy mode',                        sub: 'Keyboard text selection / copy' },
-      { keys: ['prefix','?'],                     what: 'Show all bindings',                sub: 'In-app list of active keybindings' },
+      { keys: ['prefix','q'],                     what: 'Detach client',       what_ko: '클라이언트 분리',      sub: 'Server and agents keep running in background', sub_ko: '서버와 에이전트는 백그라운드에서 계속 실행' },
+      { keys: ['prefix','b'],                     what: 'Toggle sidebar',      what_ko: '사이드바 토글',        sub: 'Show/hide the workspace sidebar',       sub_ko: '워크스페이스 사이드바 표시/숨김' },
+      { keys: ['prefix','['],                     what: 'Copy mode',           what_ko: '복사 모드',            sub: 'Keyboard text selection / copy',        sub_ko: '키보드로 텍스트 선택/복사' },
+      { keys: ['prefix','?'],                     what: 'Show all bindings',   what_ko: '전체 키 목록',         sub: 'In-app list of active keybindings',     sub_ko: '앱 내 활성 키바인딩 목록' },
     ]
   },
   {
-    id: 'navigate', title: 'Navigate mode', tag: 'navigate',
+    id: 'navigate', title: 'Navigate mode', title_ko: '탐색 모드', tag: 'navigate',
     ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 11-3-3-3 3"/><path d="m12 8v8"/><circle cx="12" cy="12" r="10"/></svg>',
     items: [
-      { keys: ['up','/','down'],                  what: 'Move between workspaces',          sub: 'While in navigate mode (prefix+w)' },
-      { keys: ['left','/','right'],               what: 'Move between panes',               sub: 'Permanent alias for pane ← / →' },
-      { keys: ['j','/','k'],                      what: 'Pane down / up',                   sub: 'Vim keys in navigate mode' },
+      { keys: ['up','/','down'],                  what: 'Move between workspaces', what_ko: '워크스페이스 간 이동', sub: 'While in navigate mode (prefix+w)',  sub_ko: '탐색 모드에서 (prefix+w)' },
+      { keys: ['left','/','right'],               what: 'Move between panes',  what_ko: '패널 간 이동',         sub: 'Permanent alias for pane ← / →',        sub_ko: '패널 ← / → 의 고정 별칭' },
+      { keys: ['j','/','k'],                      what: 'Pane down / up',      what_ko: '패널 아래 / 위',       sub: 'Vim keys in navigate mode',             sub_ko: '탐색 모드의 Vim 키' },
     ]
   },
   {
-    id: 'cli', title: 'CLI essentials', tag: 'cli', cli: true,
+    id: 'cli', title: 'CLI essentials', title_ko: 'CLI 핵심 명령', tag: 'cli', cli: true,
     ico: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>',
     items: [
-      { cmd: 'herdr',                              what: 'Launch or attach to default session' },
-      { cmd: 'herdr --session work',               what: 'Launch/attach a named session' },
-      { cmd: 'herdr status',                       what: 'Show client + server status' },
-      { cmd: 'herdr server stop',                  what: 'Stop server and all panes' },
-      { cmd: 'herdr server reload-config',         what: 'Reload config.toml without restart' },
-      { cmd: 'herdr session list',                 what: 'List all named sessions' },
-      { cmd: 'herdr session attach <name>',        what: 'Attach to a named session' },
-      { cmd: 'herdr workspace create --label api', what: 'Create a new workspace' },
-      { cmd: 'herdr workspace focus <id>',         what: 'Focus a workspace' },
-      { cmd: 'herdr tab create --label logs',      what: 'Create a tab' },
-      { cmd: 'herdr pane split --direction right', what: 'Split the current pane' },
-      { cmd: 'herdr pane zoom --toggle',           what: 'Zoom toggle a pane' },
-      { cmd: 'herdr pane close <id>',              what: 'Close a pane' },
-      { cmd: 'herdr agent list',                   what: 'List detected agents' },
-      { cmd: 'herdr agent focus <target>',         what: 'Focus a specific agent' },
-      { cmd: 'herdr agent send <target> "text"',   what: 'Send text to an agent' },
-      { cmd: 'herdr agent wait <target> --status idle', what: 'Block until agent state matches' },
-      { cmd: 'herdr update',                       what: 'Download and install update' },
-      { cmd: 'herdr --default-config',             what: 'Print full default config' },
+      { cmd: 'herdr',                              what: 'Launch or attach to default session', what_ko: '기본 세션 실행 또는 연결' },
+      { cmd: 'herdr --session work',               what: 'Launch/attach a named session',       what_ko: '이름 있는 세션 실행/연결' },
+      { cmd: 'herdr status',                       what: 'Show client + server status',         what_ko: '클라이언트 + 서버 상태 표시' },
+      { cmd: 'herdr server stop',                  what: 'Stop server and all panes',           what_ko: '서버와 모든 패널 중지' },
+      { cmd: 'herdr server reload-config',         what: 'Reload config.toml without restart',  what_ko: '재시작 없이 config.toml 다시 로드' },
+      { cmd: 'herdr session list',                 what: 'List all named sessions',             what_ko: '모든 이름 세션 목록' },
+      { cmd: 'herdr session attach <name>',        what: 'Attach to a named session',           what_ko: '이름 있는 세션에 연결' },
+      { cmd: 'herdr workspace create --label api', what: 'Create a new workspace',              what_ko: '새 워크스페이스 생성' },
+      { cmd: 'herdr workspace focus <id>',         what: 'Focus a workspace',                   what_ko: '워크스페이스 포커스' },
+      { cmd: 'herdr tab create --label logs',      what: 'Create a tab',                        what_ko: '탭 생성' },
+      { cmd: 'herdr pane split --direction right', what: 'Split the current pane',              what_ko: '현재 패널 분할' },
+      { cmd: 'herdr pane zoom --toggle',           what: 'Zoom toggle a pane',                  what_ko: '패널 확대 토글' },
+      { cmd: 'herdr pane close <id>',              what: 'Close a pane',                        what_ko: '패널 닫기' },
+      { cmd: 'herdr agent list',                   what: 'List detected agents',                what_ko: '감지된 에이전트 목록' },
+      { cmd: 'herdr agent focus <target>',         what: 'Focus a specific agent',              what_ko: '특정 에이전트 포커스' },
+      { cmd: 'herdr agent send <target> "text"',   what: 'Send text to an agent',               what_ko: '에이전트에 텍스트 전송' },
+      { cmd: 'herdr agent wait <target> --status idle', what: 'Block until agent state matches', what_ko: '에이전트 상태가 일치할 때까지 대기' },
+      { cmd: 'herdr update',                       what: 'Download and install update',         what_ko: '업데이트 다운로드 및 설치' },
+      { cmd: 'herdr --default-config',             what: 'Print full default config',           what_ko: '전체 기본 설정 출력' },
     ]
   },
 ];
 
 const AGENT_STATES = [
-  { cls: 'blocked', label: 'blocked',  desc: 'needs input / approval' },
-  { cls: 'working', label: 'working',  desc: 'actively running' },
-  { cls: 'done',    label: 'done',     desc: 'finished, not yet seen' },
-  { cls: 'idle',    label: 'idle',     desc: 'finished & acknowledged' },
-  { cls: 'unknown', label: 'unknown',  desc: 'cannot classify' },
+  { cls: 'blocked', label: 'blocked',  desc: 'needs input / approval',   desc_ko: '입력/승인 필요' },
+  { cls: 'working', label: 'working',  desc: 'actively running',         desc_ko: '실행 중' },
+  { cls: 'done',    label: 'done',     desc: 'finished, not yet seen',   desc_ko: '완료, 아직 확인 안 함' },
+  { cls: 'idle',    label: 'idle',     desc: 'finished & acknowledged',  desc_ko: '완료 및 확인됨' },
+  { cls: 'unknown', label: 'unknown',  desc: 'cannot classify',          desc_ko: '분류 불가' },
 ];
+
+function pick(en, ko) { return (LANG === 'ko' && ko) ? ko : en; }
 
 /* ---------- Render ---------- */
 const cards = document.getElementById('cards');
@@ -733,20 +820,20 @@ function render() {
     card.innerHTML = `
       <div class="card-head">
         <span class="ico">${sec.ico}</span>
-        <h2>${sec.title}</h2>
+        <h2>${pick(sec.title, sec.title_ko)}</h2>
         <span class="tag">${sec.tag}</span>
       </div>
       <ul>
         ${sec.items.map(it => {
           if (sec.cli) {
-            return `<li data-text="${(it.cmd+' '+it.what).toLowerCase()}">
+            return `<li data-text="${(it.cmd+' '+it.what+' '+(it.what_ko||'')).toLowerCase()}">
               <span class="keys"><code class="cmd clickable" data-copy="${it.cmd}">${highlightCmd(it.cmd)}</code></span>
-              <span class="what">${it.what}</span>
+              <span class="what">${pick(it.what, it.what_ko)}</span>
             </li>`;
           }
-          return `<li data-text="${(it.what+' '+(it.sub||'')+' '+it.keys.join(' ')).toLowerCase()}">
+          return `<li data-text="${(it.what+' '+(it.what_ko||'')+' '+(it.sub||'')+' '+(it.sub_ko||'')+' '+it.keys.join(' ')).toLowerCase()}">
             <span class="keys">${keysHtml(it.keys)}</span>
-            <span class="what">${it.what}${it.sub ? `<small>${it.sub}</small>` : ''}</span>
+            <span class="what">${pick(it.what, it.what_ko)}${it.sub ? `<small>${pick(it.sub, it.sub_ko)}</small>` : ''}</span>
           </li>`;
         }).join('')}
       </ul>`;
@@ -760,11 +847,11 @@ function render() {
   stateCard.innerHTML = `
     <div class="card-head">
       <span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-      <h2>Agent states</h2>
+      <h2>${pick('Agent states', '에이전트 상태')}</h2>
       <span class="tag">sidebar</span>
     </div>
     <div class="states">
-      ${AGENT_STATES.map(s => `<span class="chip ${s.cls}" data-text="${s.label} ${s.desc}"><span class="dot"></span><b>${s.label}</b> · ${s.desc}</span>`).join('')}
+      ${AGENT_STATES.map(s => `<span class="chip ${s.cls}" data-text="${s.label} ${s.desc} ${s.desc_ko}"><span class="dot"></span><b>${s.label}</b> · ${pick(s.desc, s.desc_ko)}</span>`).join('')}
     </div>`;
   cards.appendChild(stateCard);
 }
@@ -787,14 +874,15 @@ function filter() {
   });
   let empty = document.getElementById('empty');
   if (!anyVisible) {
+    const emptyMsg = pick('No commands match “' + q.value + '”.', '“' + q.value + '”에 해당하는 명령이 없습니다.');
     if (!empty) {
       empty = document.createElement('div');
       empty.id = 'empty';
       empty.className = 'empty-state';
-      empty.textContent = 'No commands match “' + q.value + '”.';
+      empty.textContent = emptyMsg;
       cards.appendChild(empty);
     } else {
-      empty.textContent = 'No commands match “' + q.value + '”.';
+      empty.textContent = emptyMsg;
     }
   } else if (empty) {
     empty.remove();
@@ -815,9 +903,9 @@ function showToast(msg) {
 async function copyText(text, label) {
   try {
     await navigator.clipboard.writeText(text);
-    showToast('Copied: ' + (label || text));
+    showToast(pick('Copied: ', '복사됨: ') + (label || text));
   } catch (e) {
-    showToast('Copy failed');
+    showToast(pick('Copy failed', '복사 실패'));
   }
 }
 document.addEventListener('click', e => {
@@ -828,7 +916,7 @@ document.addEventListener('click', e => {
   if (el.dataset.copyFrom) {
     const src = document.getElementById(el.dataset.copyFrom);
     text = src ? src.textContent.trim() : '';
-    label = 'agent prompt';
+    label = pick('agent prompt', '에이전트 프롬프트');
   } else {
     text = el.dataset.copy;
   }
@@ -841,21 +929,122 @@ document.getElementById('copyAll').addEventListener('click', () => {
   out.push('## Install (global)', '  curl -fsSL https://herdr.dev/install.sh | sh   # macOS/Linux', '  brew install herdr                              # with Homebrew', '  mise use -g herdr                              # with mise', '');
   out.push('## Agent setup prompt (paste into your coding agent)', '  See https://github.com/ogulcancelik/herdr/blob/master/SKILL.md', '');
   SECTIONS.forEach(sec => {
-    out.push('## ' + sec.title);
+    out.push('## ' + pick(sec.title, sec.title_ko));
     if (sec.cli) {
-      sec.items.forEach(it => out.push(`  ${it.cmd.padEnd(46)} # ${it.what}`));
+      sec.items.forEach(it => out.push(`  ${it.cmd.padEnd(46)} # ${pick(it.what, it.what_ko)}`));
     } else {
       sec.items.forEach(it => {
         const k = it.keys.map(x => x === 'prefix' ? 'prefix' : x).join(' ');
-        out.push(`  ${k.padEnd(26)} ${it.what}${it.sub ? ' · '+it.sub : ''}`);
+        const w = pick(it.what, it.what_ko);
+        const s = it.sub ? ' · ' + pick(it.sub, it.sub_ko) : '';
+        out.push(`  ${k.padEnd(26)} ${w}${s}`);
       });
     }
     out.push('');
   });
-  copyText(out.join('\n'), 'whole cheatsheet');
+  copyText(out.join('\n'), pick('whole cheatsheet', '치트시트 전체'));
 });
 
-render();
+/* ---------- i18n (static HTML nodes) ---------- */
+const I18N = {
+  en: {
+    'meta.title': `Herdr Cheatsheet: most-used commands`,
+    'search.ph': `Search commands…  (try: split, tab, workspace)`,
+    'actions.copy': `Copy`,
+    'actions.print': `Print`,
+    'actions.copyAllTitle': `Copy the whole cheatsheet as text`,
+    'hero.title': `The <span class="grad">Herdr</span> cheatsheet`,
+    'hero.desc': `The most-used keybindings and CLI commands for <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr</a>, the terminal workspace manager. Click any key or command to copy it.`,
+    'gs.install.title': `Install Herdr`,
+    'gs.install.badge': `global · one line`,
+    'gs.install.sub': `Pick one method. The binary lands on your <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">PATH</code>.`,
+    'gs.install.verify': `Verify:`,
+    'gs.install.launch': `Launch:`,
+    'gs.agent.title': `Agent setup prompt`,
+    'gs.agent.badge': `paste once`,
+    'gs.agent.sub': `One prompt to install Herdr globally <em>and</em> teach your agent the CLI via the official <a href="https://github.com/ogulcancelik/herdr/blob/master/SKILL.md" target="_blank" rel="noopener">SKILL.md</a>.`,
+    'prefix.label': `Prefix`,
+    'prefix.desc': `Press the <b>prefix</b>, release, then press the action key. Example: <span class="keys"><kbd>Ctrl+B</kbd></span> then <kbd>v</kbd> splits right. Mouse works for everything too.`,
+    'about.title': `About`,
+    'about.body': `A single-file, print-friendly cheatsheet of the most-used <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr</a> keybindings and CLI commands. Everything lives in one self-contained <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">index.html</code> — no build step. Not affiliated with Herdr; built from the official docs.`,
+    'about.link.pages': `GitHub Pages site`,
+    'about.link.repo': `GitHub repository`,
+    'about.link.docs': `Herdr official docs`,
+    'footer': `Built from the official <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr docs</a> · prefix default is <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">ctrl+b</code> · not affiliated with Herdr.`,
+  },
+  ko: {
+    'meta.title': `Herdr 치트시트: 자주 쓰는 명령`,
+    'search.ph': `명령 검색…  (예: split, tab, workspace)`,
+    'actions.copy': `복사`,
+    'actions.print': `인쇄`,
+    'actions.copyAllTitle': `치트시트 전체를 텍스트로 복사`,
+    'hero.title': `<span class="grad">Herdr</span> 치트시트`,
+    'hero.desc': `터미널 워크스페이스 매니저 <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr</a>의 자주 쓰는 단축키와 CLI 명령. 키나 명령을 클릭하면 복사됩니다.`,
+    'gs.install.title': `Herdr 설치`,
+    'gs.install.badge': `전역 · 한 줄`,
+    'gs.install.sub': `방법 하나를 고르세요. 바이너리가 <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">PATH</code>에 설치됩니다.`,
+    'gs.install.verify': `확인:`,
+    'gs.install.launch': `실행:`,
+    'gs.agent.title': `에이전트 설정 프롬프트`,
+    'gs.agent.badge': `한 번 붙여넣기`,
+    'gs.agent.sub': `프롬프트 하나로 Herdr를 전역 설치하고 공식 <a href="https://github.com/ogulcancelik/herdr/blob/master/SKILL.md" target="_blank" rel="noopener">SKILL.md</a>로 에이전트에게 CLI 사용법을 가르칩니다.`,
+    'prefix.label': `Prefix`,
+    'prefix.desc': `<b>prefix</b>를 누르고 떼었다가 동작 키를 누릅니다. 예: <span class="keys"><kbd>Ctrl+B</kbd></span> 다음 <kbd>v</kbd> 는 오른쪽 분할. 마우스로도 모두 동작합니다.`,
+    'about.title': `소개`,
+    'about.body': `터미널 워크스페이스 매니저 <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr</a>의 자주 쓰는 단축키와 CLI 명령을 한 장에 모은, 인쇄에 적합한 치트시트입니다. 모든 것이 빌드 과정 없이 단일 <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">index.html</code> 안에 들어 있습니다. Herdr와 공식 제휴 관계는 없으며, 공식 문서를 바탕으로 만들었습니다.`,
+    'about.link.pages': `GitHub Pages 사이트`,
+    'about.link.repo': `GitHub 저장소`,
+    'about.link.docs': `Herdr 공식 문서`,
+    'footer': `공식 <a href="https://herdr.dev/docs/" target="_blank" rel="noopener">Herdr docs</a> 기반 · 기본 prefix는 <code style="font-family:'JetBrains Mono',monospace;color:var(--accent)">ctrl+b</code> · Herdr와 제휴 관계 없음.`,
+  },
+};
+
+function applyLang(lang) {
+  LANG = (lang === 'en') ? 'en' : 'ko';
+  const dict = I18N[LANG];
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = dict[el.getAttribute('data-i18n')];
+    if (v == null) return;
+    if (el.tagName === 'TITLE') document.title = v;
+    else el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const v = dict[el.getAttribute('data-i18n-html')];
+    if (v != null) el.innerHTML = v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const v = dict[el.getAttribute('data-i18n-ph')];
+    if (v != null) el.setAttribute('placeholder', v);
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const v = dict[el.getAttribute('data-i18n-title')];
+    if (v != null) el.setAttribute('title', v);
+  });
+  document.querySelectorAll('.lang-toggle [data-lang]').forEach(b => {
+    b.setAttribute('aria-pressed', String(b.dataset.lang === LANG));
+  });
+  render();                       // re-render dynamic cards in the active language
+  if (q.value.trim()) filter();   // keep any active search applied
+}
+
+function resolveInitialLang() {
+  // 1) explicit user choice (toggle) wins, remembered across visits
+  const saved = localStorage.getItem('herdr-cheat-lang');
+  if (saved === 'ko' || saved === 'en') return saved;
+  // 2) otherwise follow the browser language: Korean-family -> ko, else en
+  const nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+  return nav.toLowerCase().startsWith('ko') ? 'ko' : 'en';
+}
+
+document.querySelectorAll('.lang-toggle [data-lang]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    localStorage.setItem('herdr-cheat-lang', btn.dataset.lang);
+    applyLang(btn.dataset.lang);
+  });
+});
+
+applyLang(resolveInitialLang());
 </script>
 </body>
 </html>
