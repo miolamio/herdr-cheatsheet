@@ -2,7 +2,7 @@
 
 > [English](README.md) · **한국어**
 
-[Herdr](https://herdr.dev/docs/)의 자주 쓰는 단축키와 CLI 명령을 한 장에 모은, 인쇄에 적합한 단일 파일 치트시트입니다: 패널 분할, 탭, 워크스페이스, 세션, 에이전트, 그리고 Herdr를 전역 설치하고 공식 [SKILL.md](https://github.com/ogulcancelik/herdr/blob/master/SKILL.md)를 가져오는 복붙용 **에이전트 설정 프롬프트**까지 담았습니다.
+[Herdr](https://herdr.dev/docs/)의 자주 쓰는 단축키와 CLI 명령을 한 장에 모은, 인쇄에 적합한 단일 파일 치트시트입니다: 패널 분할, 탭, 워크스페이스, 세션, 에이전트, 그리고 Herdr를 전역 설치하고 공식 [SKILL.md](https://github.com/herdrdev/herdr/blob/master/skills/herdr/SKILL.md)를 가져오는 복붙용 **에이전트 설정 프롬프트**까지 담았습니다.
 
 `index.html`을 직접 열거나, GitHub Pages 사이트를 방문하세요 → https://cskwork.github.io/herdr-cheatsheet/
 

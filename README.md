@@ -2,7 +2,7 @@
 
 > **English** · [한국어](README.ko.md)
 
-A single-file, print-friendly cheatsheet of the most-used [Herdr](https://herdr.dev/docs/) keybindings and CLI commands: pane splits, tabs, workspaces, sessions, agents, plus a copy-paste **agent setup prompt** that installs Herdr globally and pulls the official [SKILL.md](https://github.com/ogulcancelik/herdr/blob/master/SKILL.md).
+A single-file, print-friendly cheatsheet of the most-used [Herdr](https://herdr.dev/docs/) keybindings and CLI commands: pane splits, tabs, workspaces, sessions, agents, plus a copy-paste **agent setup prompt** that installs Herdr globally and pulls the official [SKILL.md](https://github.com/herdrdev/herdr/blob/master/skills/herdr/SKILL.md).
 
 Open `index.html` directly, or visit the GitHub Pages site → https://cskwork.github.io/herdr-cheatsheet/
 
